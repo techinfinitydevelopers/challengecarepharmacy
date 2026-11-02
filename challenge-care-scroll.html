@@ -10,7 +10,7 @@
 @font-face{font-family:'Century Gothic Pro';font-weight:700;font-style:normal;font-display:swap;
   src:url('fonts/CenturyGothicPro-Bold.woff2') format('woff2'),url('fonts/CenturyGothicPro-Bold.otf') format('opentype')}
 
-:root{--navy:#103045;--night:#0a1f2d;--teal:#36b3bd;--teal-d:#1f8a93;--bg:#f3f5f4;--ink:#103045;--soft:#5f7581;--rule:rgba(16,48,69,.12);--gut:clamp(18px,4vw,52px)}
+:root{--navy:#103045;--night:#0a1f2d;--teal:#36b3bd;--teal-d:#1f8a93;--bg:#f3f5f4;--ink:#103045;--soft:#5f7581;--rule:rgba(16,48,69,.12);--maxw:1400px;--gut:max(clamp(18px,4vw,52px),calc((100vw - var(--maxw)) / 2))}
 *{box-sizing:border-box;margin:0;padding:0}
 html.lenis{height:auto}.lenis.lenis-smooth{scroll-behavior:auto}
 body{background:var(--bg);color:var(--ink);font-family:'Century Gothic Pro',sans-serif;font-weight:700;-webkit-font-smoothing:antialiased;overflow-x:hidden}
@@ -36,7 +36,7 @@ nav.dark .pillbtn:hover{background:#fff;border-color:#fff;color:var(--navy)}
 
 /* 1 · intro: headline left, arch photo right; photo expands to full bleed on scroll */
 .intro{position:relative;height:100vh;overflow:hidden}
-.intro .copy{position:absolute;left:var(--gut);top:50%;transform:translateY(-46%);max-width:min(560px,48vw)}
+.intro .copy{position:absolute;left:var(--gut);top:50%;transform:translateY(-46%);max-width:min(660px,50vw)}
 .intro .copy .cap{color:var(--soft)}
 .intro h1{font-weight:700;font-size:clamp(41px,6.4vw,93px);line-height:.98;letter-spacing:-.03em;margin-top:26px}
 .intro h1 em{color:var(--teal-d)}
@@ -44,7 +44,7 @@ nav.dark .pillbtn:hover{background:#fff;border-color:#fff;color:var(--navy)}
 .intro h1 .l>span{display:block}
 .intro .lead{margin-top:26px;font-size:18px;line-height:1.55;color:var(--soft);max-width:400px}
 .intro .copy .row{display:flex;gap:12px;margin-top:34px;flex-wrap:wrap}
-.intro .arch{position:absolute;inset:0;overflow:hidden;clip-path:inset(14vh 4vw 10vh 62vw round 17vw 17vw 28px 28px);will-change:clip-path}
+.intro .arch{position:absolute;inset:0;overflow:hidden;clip-path:inset(14vh var(--gut) 10vh calc(100vw - var(--gut) - min(34vw,480px)) round calc(min(34vw,480px) / 2) calc(min(34vw,480px) / 2) 28px 28px);will-change:clip-path}
 .intro .arch img{will-change:transform}
 .intro .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,31,45,.1),rgba(10,31,45,.62));opacity:0}
 .intro .over{position:absolute;left:var(--gut);bottom:12vh;color:#fff;max-width:640px;opacity:0}
@@ -479,10 +479,17 @@ gsap.from('.intro h1 .l>span', { yPercent: 105, duration: 1.3, ease: 'expo.out',
 gsap.from('.intro .cap, .intro .lead, .intro .copy .row', { opacity: 0, y: 16, duration: 1.1, ease: 'expo.out', stagger: .08, delay: .4 });
 gsap.from('.intro .arch', { opacity: 0, duration: 1.4, ease: 'power2.out' });
 // frame the whole photo inside the arch: shrink the full-screen image so it just covers the arch box, centred on it
+const probe = document.createElement('div'); probe.style.cssText = 'position:absolute;visibility:hidden;pointer-events:none'; document.body.appendChild(probe);
+const gutPx = () => (probe.style.paddingLeft = 'var(--gut)', parseFloat(getComputedStyle(probe).paddingLeft));
+const archBox = () => {            // the arch lives inside the page margins, so it lines up with the hero text on any screen
+  const W = innerWidth, H = innerHeight, g = gutPx();
+  const aw = mobile ? W - 2 * g : Math.min(.34 * W, 480), ah = mobile ? .40 * H : .76 * H;
+  const left = mobile ? g : W - g - aw, top = (mobile ? .12 : .14) * H;
+  return { W, H, g, aw, ah, left, top };
+};
 function archImg() {
-  const W = innerWidth, H = innerHeight;
-  const aw = mobile ? .92 * W : .34 * W, ah = mobile ? .40 * H : .76 * H;
-  const cx = mobile ? W / 2 : W - .04 * W - aw / 2, cy = (mobile ? .12 * H : .14 * H) + ah / 2;
+  const { W, H, aw, ah, left, top } = archBox();
+  const cx = left + aw / 2, cy = top + ah / 2;
   return { x: cx - W / 2, y: cy - H / 2, scale: Math.max(aw / W, ah / H) };
 }
 gsap.set('.intro .arch img', archImg());
@@ -491,8 +498,8 @@ gsap.set('.intro .arch img', archImg());
 const intro = gsap.timeline({ scrollTrigger: { trigger: '#intro', start: 'top top', end: '+=140%', scrub: 1, pin: true, invalidateOnRefresh: true,
   onUpdate: s => nav.classList.toggle('dark', s.progress > .4 && s.progress < 1) } });
 // clip-path only (no layout changes) so the reveal stays on the compositor and scrubs smoothly
-const archFrom = mobile ? 'inset(12vh 4vw 48vh 4vw round 46vw 46vw 24px 24px)' : 'inset(14vh 4vw 10vh 62vw round 17vw 17vw 28px 28px)';
-intro.fromTo('.intro .arch', { clipPath: archFrom }, { clipPath: 'inset(0vh 0vw 0vh 0vw round 0vw 0vw 0px 0px)', ease: 'none' }, 0)
+const archFrom = () => { const b = archBox(); return mobile ? `inset(12vh ${b.g}px 48vh ${b.g}px round ${b.aw / 2}px ${b.aw / 2}px 24px 24px)` : `inset(14vh ${b.g}px 10vh ${b.left}px round ${b.aw / 2}px ${b.aw / 2}px 28px 28px)`; };
+intro.fromTo('.intro .arch', { clipPath: () => archFrom() }, { clipPath: 'inset(0vh 0vw 0vh 0vw round 0vw 0vw 0px 0px)', ease: 'none' }, 0)
      .fromTo('.intro .arch img', { x: () => archImg().x, y: () => archImg().y, scale: () => archImg().scale }, { x: 0, y: 0, scale: 1, ease: 'none' }, 0)
      .to('.intro .copy', { x: mobile ? 0 : -80, opacity: 0, ease: 'power2.in', duration: .45 }, 0)
      .to('.intro .shade', { opacity: 1, ease: 'none', duration: .4 }, .5)

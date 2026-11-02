@@ -14,7 +14,8 @@
   --navy:#103045;--deep:#0b2232;--teal:#36b3bd;--teal-ink:#1d7f88;
   --bg:#eff2f1;--paper:#f7f8f7;--ink:#103045;--soft:#5b7280;--rule:rgba(16,48,69,.14);
   --ease:cubic-bezier(.22,1,.36,1);
-  --gut:clamp(16px,3.2vw,41px);
+  --maxw:1400px;
+  --gut:max(clamp(16px,3.2vw,41px),calc((100vw - var(--maxw)) / 2));   /* equal left/right margins; content never wider than --maxw */
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html.lenis{height:auto}.lenis.lenis-smooth{scroll-behavior:auto}
@@ -123,7 +124,7 @@ h2.big{font-weight:700;font-size:clamp(28px,3.8vw,52px);line-height:1;letter-spa
 h2.big em{color:var(--teal-ink)}
 .head p{font-size:16px;line-height:1.6;color:var(--soft);max-width:44ch;justify-self:end}
 .rows a{position:relative;display:grid;grid-template-columns:80px 1.2fr 1.4fr 40px;gap:var(--gut);align-items:center;padding:30px 0;border-bottom:1px solid var(--rule);isolation:isolate}
-.rows a::before{content:"";position:absolute;inset:0 calc(-1*var(--gut));background:var(--navy);clip-path:inset(0 100% 0 0);transition:clip-path .7s var(--ease);z-index:-1}
+.rows a::before{content:"";position:absolute;inset:0 calc(-1*min(var(--gut),28px));background:var(--navy);clip-path:inset(0 100% 0 0);transition:clip-path .7s var(--ease);z-index:-1}
 .rows a:hover::before{clip-path:inset(0 0 0 0)}
 .rows a>*{transition:color .5s var(--ease),transform .7s var(--ease)}
 .rows a:hover>*{color:var(--paper)}
@@ -254,7 +255,7 @@ nav.dark .lg-c{display:none}nav.dark .lg-w{display:block}
 .sx-gh span{color:var(--soft)}
 .sx{display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(20px,3vw,38px);margin-bottom:6vh;align-items:start}
 .sx-ph{position:relative;aspect-ratio:4/3;border-radius:22px;overflow:hidden}
-.sx-ph img{transition:transform 1.4s cubic-bezier(.22,1,.36,1)}
+.sx-ph img{display:block;width:100%;height:100%;object-fit:cover;transition:transform 1.4s cubic-bezier(.22,1,.36,1)}
 .sx:hover .sx-ph img{transform:scale(1.05)}
 .sx-n{position:absolute;left:14px;top:14px;font-size:12px;letter-spacing:.16em;color:#fff;background:rgba(10,31,45,.4);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:6px 12px;border-radius:999px}
 .sx-body h3{font-weight:700;font-size:clamp(26px,2.4vw,38px);letter-spacing:-.02em;line-height:1.05}
@@ -463,6 +464,7 @@ const clamp01 = x => Math.min(Math.max(x, 0), 1);
 const ease = x => 1 - Math.pow(1 - x, 3);
 const easeIO = x => x < .5 ? 4*x*x*x : 1 - Math.pow(-2*x + 2, 3) / 2;
 const R = Math.random;
+const probe = document.createElement('div'); probe.style.cssText = 'position:absolute;visibility:hidden;pointer-events:none'; document.body.appendChild(probe);
 
 /* =========================================================
    Scene 1 — the capsule (fixed canvas, light sections)
@@ -716,7 +718,8 @@ function tick(ms) {
     const wide = innerWidth > 900;
     open += (easeIO(clamp01(storyP / .45)) - open) * k;
     const halfW = Math.tan(THREE.MathUtils.degToRad(c1.fov / 2)) * c1.position.z * c1.aspect;
-    rig.position.set(wide ? Math.min(halfW * .42, 2.9) : 0, (wide ? .15 : 1.8) + Math.sin(t * .9) * .06, 0);
+    const gutPx = (probe.style.paddingLeft = 'var(--gut)', parseFloat(getComputedStyle(probe).paddingLeft)), W = innerWidth, xc = W - gutPx - Math.min(W, 1400) * .2;
+    rig.position.set(wide ? (xc / W * 2 - 1) * halfW : 0, (wide ? .15 : 1.8) + Math.sin(t * .9) * .06, 0);
     rig.scale.setScalar(wide ? 1 : .5);
     rig.rotation.z = THREE.MathUtils.lerp(-.62, -1.45, ease(heroP)) - sm.x * .12;
     rig.rotation.x = .25 + sm.y * .18;
