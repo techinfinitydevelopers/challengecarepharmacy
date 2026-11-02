@@ -23,9 +23,7 @@ em{font-family:'DM Serif Display',serif;font-style:italic;font-weight:400;letter
 /* nav */
 nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:22px var(--gut);transition:color .5s,transform .6s cubic-bezier(.22,1,.36,1)}
 nav.dark{color:#fff}
-nav::before{content:"";position:absolute;inset:0;z-index:-1;background:rgba(243,245,244,.84);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid rgba(16,48,69,.08);transition:background .5s,opacity .4s}
-nav.dark::before{background:rgba(10,31,45,.62);border-bottom-color:rgba(255,255,255,.08)}
-nav.top::before{opacity:0}
+
 .logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;letter-spacing:.01em}
 .logo svg{width:15px;height:15px}
 nav .links{display:flex;gap:34px;font-size:15px}
@@ -474,9 +472,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click
 
 // nav: hide on scroll down, white text over dark scenes
 const nav = document.getElementById('nav');
-// the header stays on screen at all times; its blurred bar only appears once you scroll off the very top
-const navTop = () => nav.classList.toggle('top', scrollY < 8);
-addEventListener('scroll', navTop, { passive: true }); navTop();
+// the header stays on screen at all times (no background bar)
 
 // intro entrance
 gsap.from('.intro h1 .l>span', { yPercent: 105, duration: 1.3, ease: 'expo.out', stagger: .1, delay: .1 });
