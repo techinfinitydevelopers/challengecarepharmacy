@@ -391,31 +391,41 @@ footer .ctas .pillbtn.fill{height:58px;padding:0 34px;box-shadow:0 18px 40px -18
   .fq-a p{padding:0 8px 24px 44px}
 }
 
-/* liquid-glass nav: chrome rim around a brushed inner pill (after the Framer "Liquid Glass Navbar"); always light, so it reads over any section */
-nav{inset:14px 0 auto 0;padding:0 var(--gut);justify-content:center;pointer-events:none}
-.nav-rim{position:relative;pointer-events:auto;width:min(960px,100%);padding:3px;border-radius:999px;background:linear-gradient(180deg,#fff 0%,#c9c9c9 9%,#a1a1a1 32%,#757575 73%,#fff 100%);box-shadow:.29px 4.36px 2.18px rgba(0,0,0,.01),.48px 7.24px 3.63px rgba(0,0,0,.01),.78px 11.7px 5.86px rgba(0,0,0,.02),1.28px 19.15px 9.6px rgba(0,0,0,.03),2.2px 32.97px 16.52px rgba(0,0,0,.03),4px 60px 30px rgba(0,0,0,.06)}
-.nav-in{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:8px 10px 8px 18px;border-radius:999px;background:linear-gradient(150deg,#d0d0d0 0%,#e8e8e8 50%,#c8c8c8 100%);box-shadow:inset 0 1px 1.5px rgba(0,0,0,.07),inset 0 -1px 1.5px rgba(0,0,0,.07);color:var(--ink)}
-nav.dark{color:inherit}
-nav .lg{height:34px}
-nav .lg-w,nav.dark .lg-w{display:none}nav.dark .lg-c{display:block}
-nav .links{gap:4px;font-size:14px}
-nav .links a{padding:10px 15px;border-radius:999px;opacity:.78;transition:opacity .3s,background .3s,box-shadow .3s}
-nav .links a:hover{opacity:1;background:rgba(255,255,255,.55);box-shadow:inset 0 1px 0 rgba(255,255,255,.9)}
-.nav-end{display:flex;align-items:center;gap:8px}
-nav .pillbtn{height:44px;padding:0 24px;border:0;color:var(--ink);background:rgba(255,255,255,.4);box-shadow:inset 0 1px 0 rgba(255,255,255,.85),0 8px 20px -6px rgba(148,160,181,.45),-4px -4px 12px rgba(255,255,255,.5)}
-nav .pillbtn:hover,nav.dark .pillbtn:hover{background:#fff;color:var(--ink);border:0}
+/* nav: floating pill in the brand palette. Shrinks to logo + current section + CTA while scrolling down; expands on scroll up, hover or focus. Light over light sections, navy over dark ones (nav.dark). */
+nav{--np-solid:#f3f5f4;--np-bg:rgba(243,245,244,.9);--np-fg:var(--ink);--np-rim:rgba(16,48,69,.14);--np-hov:rgba(16,48,69,.07);--np-act:rgba(54,179,189,.22);inset:14px 0 auto 0;padding:0 var(--gut);justify-content:center;pointer-events:none}
+nav.dark{--np-solid:#103045;--np-bg:rgba(16,48,69,.92);--np-fg:#fff;--np-rim:rgba(255,255,255,.16);--np-hov:rgba(255,255,255,.1);--np-act:rgba(54,179,189,.3);color:inherit}
+.nav-rim{position:relative;pointer-events:auto;max-width:100%;border-radius:999px;box-shadow:0 18px 40px -18px rgba(10,31,45,.4)}
+.nav-in{display:flex;align-items:center;padding:7px 8px 7px 18px;border-radius:999px;background:var(--np-bg);color:var(--np-fg);border:1px solid var(--np-rim);-webkit-backdrop-filter:blur(14px) saturate(1.4);backdrop-filter:blur(14px) saturate(1.4);transition:background .5s,color .5s,border-color .5s}
+nav .lg{height:32px}
+nav .lg-w{display:none}nav.dark .lg-c{display:none}nav.dark .lg-w{display:block}
+.nav-now{max-width:0;margin-left:0;overflow:hidden;white-space:nowrap;font-size:13px;letter-spacing:.14em;text-transform:uppercase;opacity:0;color:var(--teal-d);transition:max-width .6s cubic-bezier(.22,1,.36,1),margin .6s cubic-bezier(.22,1,.36,1),opacity .4s}
+nav.dark .nav-now{color:var(--teal)}
+nav .links{display:flex;gap:2px;margin-left:18px;max-width:var(--lw,640px);overflow:hidden;font-size:14px;transition:max-width .6s cubic-bezier(.22,1,.36,1),margin .6s cubic-bezier(.22,1,.36,1),opacity .4s}
+nav .links a{position:relative;padding:10px 15px;border-radius:999px;white-space:nowrap;opacity:.78;transition:opacity .3s,background .3s}
+nav .links a:hover{opacity:1;background:var(--np-hov)}
+nav .links a.on{opacity:1;background:var(--np-act)}
+.nav-end{display:flex;align-items:center;gap:8px;margin-left:18px}
+nav .pillbtn{height:42px;padding:0 22px;border:0;background:var(--teal);color:var(--night)}
+nav .pillbtn:hover,nav.dark .pillbtn:hover{background:#fff;color:var(--night);border:0}
 .nav-cta-m,.nav-tg{display:none}
-.nav-tg{position:relative;width:40px;height:40px;border:0;border-radius:50%;background:rgba(255,255,255,.4);box-shadow:inset 0 1px 0 rgba(255,255,255,.85),0 8px 20px -6px rgba(148,160,181,.45);cursor:pointer}
-.nav-tg i{position:absolute;left:11px;width:18px;height:2px;border-radius:2px;background:#0a0a0c;transition:transform .4s cubic-bezier(.22,1,.36,1),top .4s cubic-bezier(.22,1,.36,1)}
+.nav-tg{position:relative;width:40px;height:40px;border:0;border-radius:50%;background:var(--np-hov);cursor:pointer}
+.nav-tg i{position:absolute;left:11px;width:18px;height:2px;border-radius:2px;background:var(--np-fg);transition:transform .4s cubic-bezier(.22,1,.36,1),top .4s cubic-bezier(.22,1,.36,1)}
 .nav-tg i:nth-child(1){top:15px}.nav-tg i:nth-child(2){top:23px}
 .nav-tg[aria-expanded="true"] i:nth-child(1){top:19px;transform:rotate(45deg)}
 .nav-tg[aria-expanded="true"] i:nth-child(2){top:19px;transform:rotate(-45deg)}
-.nav-tg:focus-visible,nav .links a:focus-visible{outline:2px solid var(--teal-d);outline-offset:2px}
+.nav-tg:focus-visible,nav .links a:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+@media (min-width:821px){
+  nav.compact .nav-rim:not(:hover):not(:focus-within) .links{max-width:0;margin-left:0;opacity:0}
+  nav.compact .nav-rim:not(:hover):not(:focus-within) .nav-now{max-width:160px;margin-left:16px;opacity:1}
+}
 @media (max-width:820px){
   .nav-tg{display:block}
-  nav .links{display:grid;gap:2px;position:absolute;left:0;right:0;top:calc(100% + 10px);padding:14px;border-radius:30px;background:linear-gradient(150deg,#d0d0d0 0%,#e8e8e8 50%,#c8c8c8 100%);box-shadow:0 0 0 3px #b4b4b4,0 24px 50px -16px rgba(10,31,45,.4);opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .3s,transform .4s cubic-bezier(.22,1,.36,1),visibility 0s .4s}
+  .nav-now{display:none}
+  nav .links{display:grid;gap:2px;position:absolute;left:0;right:0;top:calc(100% + 10px);max-width:none;margin:0;padding:14px;border-radius:30px;background:var(--np-solid);color:var(--np-fg);border:1px solid var(--np-rim);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 24px 50px -16px rgba(10,31,45,.4);opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .3s,transform .4s cubic-bezier(.22,1,.36,1),visibility 0s .4s}
   nav .links.open{opacity:1;visibility:visible;transform:none;transition:opacity .3s,transform .4s cubic-bezier(.22,1,.36,1)}
   nav .links a{padding:14px 16px;font-size:16px}
+  .nav-rim{width:100%}
+  .nav-in{justify-content:space-between}
 }
 @media (max-width:560px){
   .nav-end>.pillbtn{display:none}
@@ -423,6 +433,7 @@ nav .pillbtn:hover,nav.dark .pillbtn:hover{background:#fff;color:var(--ink);bord
   nav .links .nav-cta-m:hover{background:#fff}
   .nav-in{padding-left:14px}
 }
+@media (prefers-reduced-motion:reduce){nav *{transition:none!important}}
 </style>
 </head>
 <body>
@@ -430,7 +441,8 @@ nav .pillbtn:hover,nav.dark .pillbtn:hover{background:#fff;color:var(--ink);bord
 
 <nav id="nav">
   <div class="nav-rim"><div class="nav-in">
-    <a class="logo" href="#top"><img class="lg lg-c" src="assets/challenge-care-logo.svg" alt="Challenge Care Pharmacy"></a>
+    <a class="logo" href="#top"><img class="lg lg-c" src="assets/challenge-care-logo.svg" alt="Challenge Care Pharmacy"><img class="lg lg-w" src="assets/challenge-care-logo-white.svg" alt="" aria-hidden="true"></a>
+    <span class="nav-now" aria-hidden="true"></span>
     <div class="links" id="navlinks"><a href="#services">Services</a><a href="#how">Patients</a><a href="#providers">Providers</a><a href="#therapies">Therapies</a><a href="#sx-settings">Locations</a><a class="pillbtn nav-cta-m" href="#visit">Refer a patient</a></div>
     <div class="nav-end"><a class="pillbtn" href="#visit">Refer a patient</a><button class="nav-tg" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navlinks"><i></i><i></i></button></div>
   </div></div>
@@ -815,9 +827,32 @@ addEventListener('load', () => ScrollTrigger.refresh());
 </script>
 
 <script>
-// nav: hamburger on tablet/phone; closes on link, Escape, outside click or when resized up
+// nav: shrinks while scrolling down, expands on scroll up / hover / focus; shows the section in view; hamburger on tablet/phone
 (() => {
-  const tg = document.querySelector('.nav-tg'), links = document.getElementById('navlinks'); if (!tg || !links) return;
+  const nav = document.getElementById('nav'), tg = nav.querySelector('.nav-tg'), links = document.getElementById('navlinks'), now = nav.querySelector('.nav-now');
+  const anchors = [...links.querySelectorAll('a:not(.nav-cta-m)')];
+  // the width the links need when expanded, so the pill can animate between its two sizes
+  const measure = () => { links.style.maxWidth = 'none'; const w = links.scrollWidth; links.style.maxWidth = ''; links.style.setProperty('--lw', w + 'px'); };
+  measure(); document.fonts.ready.then(measure); addEventListener('resize', measure);
+  // compact on the way down, full on the way up (and at the very top)
+  let last = scrollY;
+  addEventListener('scroll', () => {
+    const y = scrollY, d = y - last;
+    if (y < 120) nav.classList.remove('compact');
+    else if (d > 6) nav.classList.add('compact');
+    else if (d < -6) nav.classList.remove('compact');
+    if (Math.abs(d) > 6) last = y;
+    mark();
+  }, { passive: true });
+  // which link's target is under the middle of the screen (the smallest block wins, so Locations beats Services)
+  const targets = anchors.map(a => ({ a, t: document.querySelector(a.getAttribute('href')) })).filter(o => o.t);
+  function mark() {
+    const mid = innerHeight * .5; let best = null, size = Infinity;
+    targets.forEach(o => { const r = o.t.getBoundingClientRect(); if (r.top <= mid && r.bottom >= mid && r.height < size) { best = o; size = r.height; } });
+    anchors.forEach(a => a.classList.toggle('on', !!best && a === best.a));
+    now.textContent = best ? best.a.textContent : '';
+  }
+  mark(); addEventListener('load', mark);
   const set = open => { links.classList.toggle('open', open); tg.setAttribute('aria-expanded', open); };
   tg.addEventListener('click', () => set(tg.getAttribute('aria-expanded') !== 'true'));
   links.addEventListener('click', e => { if (e.target.closest('a')) set(false); });
