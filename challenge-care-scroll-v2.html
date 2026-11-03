@@ -37,13 +37,22 @@ nav.dark .pillbtn:hover{background:#fff;border-color:#fff;color:var(--navy)}
 /* 1 · intro: headline left, arch photo right; photo expands to full bleed on scroll */
 .intro{position:relative;height:100vh;overflow:hidden}
 .intro .copy{position:absolute;left:var(--gut);top:50%;transform:translateY(-46%);max-width:min(660px,50vw)}
-.intro .copy .cap{color:var(--soft)}
+.intro .copy .cap{display:inline-flex;align-items:center;gap:14px;color:var(--teal-d)}
+.intro .copy .cap::before{content:"";width:32px;height:1px;background:currentColor}
 .intro h1{font-weight:700;font-size:clamp(41px,6.4vw,93px);line-height:.98;letter-spacing:-.03em;margin-top:26px}
 .intro h1 em{color:var(--teal-d)}
 .intro h1 .l{display:block;overflow:hidden;padding-bottom:.06em}
 .intro h1 .l>span{display:block}
-.intro .lead{margin-top:26px;font-size:18px;line-height:1.55;color:var(--soft);max-width:400px}
-.intro .copy .row{display:flex;gap:12px;margin-top:34px;flex-wrap:wrap}
+.intro .lead{margin-top:28px;font-size:19px;line-height:1.55;color:var(--soft);max-width:420px}
+.intro .copy .row{display:flex;align-items:center;gap:14px;margin-top:40px;flex-wrap:wrap}
+.intro .copy .row .pillbtn{height:54px;padding:0 28px}
+.intro .copy .row .pillbtn:not(.fill){border-color:rgba(16,48,69,.22)}
+/* soft teal glow behind the arch: depth without adding another object (the arch covers it as it expands) */
+.intro::before{content:"";position:absolute;right:calc(var(--gut) - 14vw);top:2vh;width:min(62vw,860px);aspect-ratio:1;border-radius:50%;background:radial-gradient(closest-side,rgba(54,179,189,.2),rgba(54,179,189,0) 72%);pointer-events:none}
+/* scroll cue: a hairline with a travelling dot, fades out as soon as scrolling starts */
+.scrollcue{position:absolute;left:var(--gut);bottom:4vh;pointer-events:none}
+.scrollcue .cue-line{position:relative;display:block;width:1px;height:56px;background:rgba(16,48,69,.18);overflow:hidden}
+.scrollcue .cue-line i{position:absolute;left:-1px;top:0;width:3px;height:14px;border-radius:3px;background:var(--teal-d);transform:translateY(-14px)}
 .intro .arch{position:absolute;inset:0;overflow:hidden;clip-path:inset(14vh var(--gut) 10vh calc(100vw - var(--gut) - min(34vw,480px)) round calc(min(34vw,480px) / 2) calc(min(34vw,480px) / 2) 28px 28px);will-change:clip-path}
 .intro .arch img{will-change:transform}
 .intro .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,31,45,.1),rgba(10,31,45,.62));opacity:0}
@@ -53,7 +62,7 @@ nav.dark .pillbtn:hover{background:#fff;border-color:#fff;color:var(--navy)}
 .intro .over p{margin-top:20px;font-size:18px;line-height:1.55;color:rgba(255,255,255,.8);max-width:460px}
 .intro .over .row{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap}
 .intro .over .pillbtn{color:#fff}
-@media (max-width:820px){.intro .copy{top:auto;bottom:6vh;transform:none;max-width:none;right:var(--gut)}.intro .arch{clip-path:inset(12vh 4vw 48vh 4vw round 46vw 46vw 24px 24px)}}
+@media (max-width:820px){.intro .copy{top:auto;bottom:6vh;transform:none;max-width:none;right:var(--gut)}.intro .copy .cap{font-size:11px;letter-spacing:.14em;gap:10px}.intro .copy .cap::before{width:20px}.intro h1{margin-top:20px}.intro .lead{margin-top:20px;font-size:17px}.intro .copy .row{margin-top:26px;gap:10px}.intro .copy .row .pillbtn{height:48px;padding:0 22px}.intro::before{right:-24vw;top:0;width:110vw}.scrollcue{left:auto;right:var(--gut);bottom:3vh}.intro .arch{clip-path:inset(11vh 4vw 53vh 4vw round 46vw 46vw 24px 24px)}}
 
 /* 2 · manifesto with inline pictures */
 
@@ -362,6 +371,7 @@ footer{border-radius:0;background:linear-gradient(180deg,var(--navy),var(--night
       <div class="row"><a class="pillbtn fill" href="#visit">Refer a patient</a><a class="pillbtn" href="#sx-settings">Find a location</a></div>
     </div>
     <div class="arch"><img src="https://images.unsplash.com/photo-1576091358783-a212ec293ff3?w=2000&q=80" alt="Pharmacist explaining a medicine to a customer"><div class="shade"></div><div class="tonavy"></div></div>
+    <div class="scrollcue" aria-hidden="true"><span class="cue-line"><i></i></span></div>
     <div class="over">
       <h2>Therapy at home, or in our centers — with a team <em>beside you.</em></h2>
       <p>Our clinical team works with you and your provider every step of the way, so care feels seamless wherever you receive it.</p>
@@ -543,15 +553,24 @@ ScrollTrigger.addEventListener('scrollEnd', navTone);       // settle once scrol
 addEventListener('load', navTone);
 
 // ── 1 · hero: entrance, then the arch photo grows to full bleed and darkens into the navy chapter
-gsap.from('.intro h1 .l>span', { yPercent: 105, duration: 1.3, ease: 'expo.out', stagger: STAG, delay: .1 });
-gsap.from('.intro .cap, .intro .lead, .intro .copy .row', { opacity: 0, y: 16, duration: 1.1, ease: 'expo.out', stagger: .08, delay: .4 });
-gsap.from('.intro .arch', { opacity: 0, duration: 1.4, ease: 'power2.out' });
+// entrance: one timeline so the order reads naturally: photo → eyebrow → heading → description → buttons → scroll cue
+const heroIn = gsap.timeline({ defaults: { ease: 'expo.out' } })
+  .from('.intro .arch', { opacity: 0, duration: 1.4, ease: 'power2.out' }, 0)
+  .from('.intro .cap', { opacity: 0, y: 16, duration: 1.1 }, .1)
+  .from('.intro h1 .l>span', { yPercent: 105, duration: 1.3, stagger: STAG }, .2)
+  .from('.intro .lead', { opacity: 0, y: 16, duration: 1.1 }, .6)
+  .from('.intro .copy .row', { opacity: 0, y: 16, duration: 1.1 }, .75)
+  .from('.scrollcue', { opacity: 0, duration: 1 }, 1.4);
+if (reduce) heroIn.progress(1);                          // reduced motion: everything is simply there, nothing slides in
+// cue: the dot travels down the hairline (paused when reduced motion is on, and once the hero is scrolled)
+const cueLoop = gsap.timeline({ repeat: -1, repeatDelay: .6, paused: reduce })
+  .to('.scrollcue .cue-line i', { y: 70, duration: 1.6, ease: 'power2.inOut' });
 const probe = document.createElement('div'); probe.style.cssText = 'position:absolute;visibility:hidden;pointer-events:none'; document.body.appendChild(probe);
 const gutPx = () => (probe.style.paddingLeft = 'var(--gut)', parseFloat(getComputedStyle(probe).paddingLeft));
 const archBox = () => {            // the arch lives inside the page margins, so it lines up with the hero text on any screen
   const W = innerWidth, H = innerHeight, g = gutPx();
-  const aw = mobile ? W - 2 * g : Math.min(.34 * W, 480), ah = mobile ? .40 * H : .76 * H;
-  const left = mobile ? g : W - g - aw, top = (mobile ? .12 : .14) * H;
+  const aw = mobile ? W - 2 * g : Math.min(.34 * W, 480), ah = mobile ? .36 * H : .76 * H;
+  const left = mobile ? g : W - g - aw, top = (mobile ? .11 : .14) * H;
   return { W, H, g, aw, ah, left, top };
 };
 function archImg() {
@@ -562,14 +581,15 @@ function archImg() {
 gsap.set('.intro .arch img', archImg());
 const introEl = document.getElementById('intro');
 const intro = gsap.timeline({ scrollTrigger: { trigger: '#intro', start: 'top top', end: '+=140%', scrub: 1, pin: true, invalidateOnRefresh: true,
-  onUpdate: s => { introEl.dataset.tone = s.progress > .4 ? 'dark' : 'light'; navTone(); } } });
-const archFrom = () => { const b = archBox(); return mobile ? `inset(12vh ${b.g}px 48vh ${b.g}px round ${b.aw / 2}px ${b.aw / 2}px 24px 24px)` : `inset(14vh ${b.g}px 10vh ${b.left}px round ${b.aw / 2}px ${b.aw / 2}px 28px 28px)`; };
+  onUpdate: s => { introEl.dataset.tone = s.progress > .4 ? 'dark' : 'light'; navTone(); if (!reduce) cueLoop.paused(s.progress > .08); } } });
+const archFrom = () => { const b = archBox(); return mobile ? `inset(11vh ${b.g}px 53vh ${b.g}px round ${b.aw / 2}px ${b.aw / 2}px 24px 24px)` : `inset(14vh ${b.g}px 10vh ${b.left}px round ${b.aw / 2}px ${b.aw / 2}px 28px 28px)`; };
 intro.fromTo('.intro .arch', { clipPath: () => archFrom() }, { clipPath: 'inset(0vh 0vw 0vh 0vw round 0vw 0vw 0px 0px)', ease: 'none' }, 0)
      .fromTo('.intro .arch img', { x: () => archImg().x, y: () => archImg().y, scale: () => archImg().scale }, { x: 0, y: 0, scale: 1, ease: 'none' }, 0)
      .to('.intro .copy', { x: mobile ? 0 : -80, opacity: 0, ease: 'power2.in', duration: .45 }, 0)
      .to('.intro .shade', { opacity: 1, ease: 'none', duration: .4 }, .5)
      .fromTo('.intro .over', { opacity: 0, y: 40 }, { opacity: 1, y: 0, ease: 'power2.out', duration: .4 }, .6)
-     .to('.intro .tonavy', { opacity: 1, ease: 'none', duration: .3 }, .7);      // photo settles into the chapter's navy
+     .to('.scrollcue .cue-line', { opacity: 0, ease: 'none', duration: .06 }, 0)          // cue gives way as soon as the user scrolls
+     .to('.intro .tonavy', { opacity: 1, ease: 'none', duration: .3 }, .62);   // photo settles fully into the next section's navy, then holds a beat before the pin releases
 
 // ── 2 · challenge → solution: one pinned chapter, two states (capsule → cross)
 const careEl = document.getElementById('care');
@@ -585,6 +605,10 @@ window.__care.st = ScrollTrigger.create({ trigger: careEl, start: 'top top', end
     window.__care.shape = +cPanels[i].dataset.shape;
     window.__care.x = (cPanels[i].classList.contains('right') ? -1 : 1) * (innerWidth < 900 ? 0 : 2.1);
   } });
+
+// hero → Promise hand-off: while the chapter scrolls in, its particles and first message fade up out of the shared navy
+gsap.fromTo('#pts', { opacity: 0 }, { opacity: 1, ease: 'none', scrollTrigger: { trigger: '#care', start: 'top 92%', end: 'top 30%', scrub: true } });
+gsap.fromTo('.care .pn[data-shape="0"]', { opacity: 0 }, { opacity: 1, ease: 'none', scrollTrigger: { trigger: '#care', start: 'top 70%', end: 'top 20%', scrub: true } });
 
 // ── helpers for the quieter, un-pinned sections: word-by-word heading reveals + one shared stagger
 function splitWords(root) {
