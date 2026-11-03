@@ -56,31 +56,8 @@ nav.dark .pillbtn:hover{background:#fff;border-color:#fff;color:var(--navy)}
 @media (max-width:820px){.intro .copy{top:auto;bottom:6vh;transform:none;max-width:none;right:var(--gut)}.intro .arch{clip-path:inset(12vh 4vw 48vh 4vw round 46vw 46vw 24px 24px)}}
 
 /* 2 · manifesto with inline pictures */
-.manifesto{padding:22vh var(--gut) 18vh}
-.manifesto .cap{color:var(--soft);display:block;margin-bottom:40px}
-.manifesto p{font-weight:700;font-size:clamp(26px,4.2vw,62px);line-height:1.12;letter-spacing:-.02em;max-width:30ch}
-.manifesto .w{opacity:.14}
-.manifesto em{color:var(--teal-d)}
-.pic{display:inline-block;vertical-align:middle;height:.82em;width:1.9em;border-radius:999px;overflow:hidden;margin:0 .12em;transform:translateY(-.06em) scale(0);transform-origin:center}
 
 /* 3 · horizontal services */
-.hz{position:relative;height:100vh;overflow:hidden;background:var(--navy);color:#fff}
-.hz .track{position:absolute;top:0;left:0;height:100%;display:flex;align-items:center;gap:3vw;padding:0 var(--gut);will-change:transform}
-.hz .lead{flex:0 0 auto;width:min(420px,78vw);padding-right:3vw}
-.hz .lead .cap{color:var(--teal)}
-.hz .lead h2{font-weight:700;font-size:clamp(34px,4.6vw,65px);line-height:1;letter-spacing:-.025em;margin-top:24px}
-.hz .lead h2 em{color:var(--teal)}
-.hz .lead p{margin-top:24px;color:rgba(255,255,255,.65);font-size:17px;line-height:1.55}
-.svc{flex:0 0 auto;width:clamp(241px,30vw,396px);height:72vh;display:flex;flex-direction:column;gap:18px}
-.svc:nth-child(odd){transform:translateY(5vh)}
-.svc .ph{flex:1;border-radius:22px;overflow:hidden;position:relative}
-.svc .ph img{width:130%;max-width:none;margin-left:-15%}
-.svc .n{position:absolute;left:18px;top:16px;color:#fff;font-size:13px;letter-spacing:.18em;background:rgba(10,31,45,.35);backdrop-filter:blur(8px);padding:6px 12px;border-radius:999px}
-.svc h3{font-weight:700;font-size:30px;letter-spacing:-.015em}
-.svc h3 em{color:var(--teal)}
-.svc p{color:rgba(255,255,255,.62);font-size:16px;line-height:1.5;max-width:36ch}
-.hz .progress{position:absolute;left:var(--gut);right:var(--gut);bottom:28px;height:1px;background:rgba(255,255,255,.15)}
-.hz .progress i{position:absolute;inset:0;background:var(--teal);transform-origin:left;transform:scaleX(0)}
 
 /* 4 · stacking steps */
 .steps{padding:18vh var(--gut) 10vh}
@@ -184,7 +161,6 @@ footer .ctas .pillbtn:not(.fill):hover{background:#fff;color:var(--night)}
   .fcols{grid-template-columns:1fr 1fr}
   .svc:nth-child(odd){transform:none}
 }
-@media (prefers-reduced-motion:reduce){.manifesto .w{opacity:1}.pic{transform:none}}
 
 .lg{height:40px;width:auto;display:block}.lg-w{display:none}
 nav.dark .lg-c{display:none}nav.dark .lg-w{display:block}
@@ -192,7 +168,6 @@ nav.dark .lg-c{display:none}nav.dark .lg-w{display:block}
 :root{--acc:var(--teal-d)}
 
 /* services grid */
-.svcs{padding:16vh var(--gut) 8vh}
 .svh{display:grid;grid-template-columns:1fr 1fr;gap:var(--gut);align-items:end;padding-bottom:40px}
 .svh>span{grid-column:1/-1;color:var(--soft)}
 .svh h2{font-weight:700;font-size:clamp(29px,4vw,55px);line-height:1.02;letter-spacing:-.025em;max-width:16ch;margin:0}
@@ -278,11 +253,94 @@ nav.dark .lg-c{display:none}nav.dark .lg-w{display:block}
 .care .dots b{width:7px;height:7px;border-radius:50%;border:1px solid var(--teal);transition:background .3s,transform .3s}
 .care .dots b.on{background:var(--teal);transform:scale(1.4)}
 @media (max-width:900px){
-  .care .pn,.care .pn.right{top:auto;bottom:7vh;left:var(--gut);right:var(--gut);transform:none;background:rgba(10,31,45,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:22px;border-radius:14px}
+  .care .pn,.care .pn.right{top:auto;bottom:7vh;left:var(--gut);right:var(--gut);transform:none;background:transparent;padding:22px;border-radius:14px;transition:background .4s ease}
+  .care .pn.on{background:rgba(10,31,45,.84)}      /* only the ACTIVE panel gets a card; hidden ones must not cover it */
   .care .dots{display:none}
 }
 
 body{font-weight:700}
+
+/* ═══════ story flow ═══════
+   One easing family (power3.out / cubic-bezier(.22,1,.36,1)), one navy zone at the start and one at the end,
+   one light zone in the middle. Dark/light flips: hero→navy (photo darkens into it), navy→light (gradient band),
+   light→navy (zoom bridge). */
+:root{--ease:cubic-bezier(.22,1,.36,1)}
+.intro .tonavy{position:absolute;inset:0;background:var(--navy);opacity:0;pointer-events:none}
+.sw{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.14em;margin-bottom:-.14em}
+.sw>span{display:inline-block}
+
+/* pillars */
+.pillars{position:relative;background:var(--navy);color:#fff;padding:14vh var(--gut) 0}
+.pl-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+.pl-head h2{font-weight:700;font-size:clamp(32px,4.4vw,62px);line-height:1.02;letter-spacing:-.025em;max-width:16ch}
+.pl-head h2 em{color:var(--teal)}
+.pl-head p{max-width:34ch;color:rgba(255,255,255,.65);font-size:17px;line-height:1.55}
+.pl-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-top:8vh}
+.pl:nth-child(even){margin-top:44px}
+.pl .ph{position:relative;aspect-ratio:4/5;border-radius:22px;overflow:hidden}
+.pl .ph img{transition:transform 1.4s var(--ease)}
+.pl:hover .ph img{transform:scale(1.05)}
+.pl .n{position:absolute;left:16px;top:14px;color:#fff;font-size:12px;letter-spacing:.18em;background:rgba(10,31,45,.4);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);padding:6px 12px;border-radius:999px}
+.pl h3{font-weight:700;font-size:clamp(20px,1.9vw,27px);letter-spacing:-.015em;margin:20px 0 8px}
+.pl h3 em{color:var(--teal)}
+.pl p{color:rgba(255,255,255,.62);font-size:15px;line-height:1.55}
+.pl-fade{margin:12vh calc(-1*var(--gut)) 0;height:36vh;background:linear-gradient(180deg,var(--navy),var(--bg))}
+.pl-fade span{display:block;height:50%}
+
+/* services: absorbed "Site of care" */
+.sx-lead{font-weight:700;font-size:clamp(20px,2vw,28px);letter-spacing:-.015em;line-height:1.15;margin:-6px 0 28px}
+.sx-short{margin-top:10px;color:var(--teal-d);font-size:15px;line-height:1.5}
+
+/* journey: rail that ties the four steps together */
+.stack{position:relative;padding-left:clamp(22px,3vw,44px)}
+.rail{position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--rule);border-radius:2px}
+.rail i{position:absolute;inset:0;background:var(--teal-d);border-radius:2px;transform-origin:top;transform:scaleY(0)}
+.rail b{position:absolute;left:-5px;width:12px;height:12px;margin-top:-6px;border-radius:50%;background:var(--bg);border:2px solid var(--rule);transition:background .4s var(--ease),border-color .4s var(--ease)}
+.rail b.on{background:var(--teal-d);border-color:var(--teal-d)}
+.scard .sub{margin-top:14px}
+.scard .sub em{color:var(--teal-d)}
+.scard:nth-child(4) .sub em{color:var(--teal)}
+
+/* zoom: ends on navy so Expertise continues it */
+.zoom .navyfade{position:absolute;inset:0;background:var(--navy);opacity:0;pointer-events:none}
+
+/* navy zone: expertise → faq → divider → footer */
+.dz{background:var(--navy);color:#fff}
+.expertise{padding:0 var(--gut) 12vh}
+.expertise .ct{padding:14vh 0 0}
+.dz .ct-head .cap{color:rgba(255,255,255,.55)}
+.dz .ct-head h2 em{color:var(--teal)}
+.dz .ct-lists .lh{color:var(--teal);border-bottom-color:rgba(255,255,255,.14)}
+.dz .ct-lists li{border-bottom-color:rgba(255,255,255,.14)}
+.dz .ct-lists li:hover{color:var(--teal)}
+.dz .ct-lists li span{color:rgba(255,255,255,.45)}
+.dz .ct-lists li.more{color:rgba(255,255,255,.5)}
+.dz .ask{border-color:rgba(255,255,255,.18)}
+.dz .ask .pillbtn{color:#fff}
+.dz .ask .pillbtn:hover{background:#fff;border-color:#fff;color:var(--night)}
+.ex-trust{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:clamp(26px,5vw,80px);align-items:end;margin-top:14vh;padding-top:14vh;border-top:1px solid rgba(255,255,255,.14)}
+.ex-trust .cap{grid-column:1/-1;color:var(--teal)}
+.ex-trust h2{font-weight:700;font-size:clamp(32px,4.8vw,68px);line-height:1;letter-spacing:-.03em}
+.ex-trust h2 em{color:var(--teal)}
+.ex-trust p{color:rgba(255,255,255,.68);font-size:18px;line-height:1.6;max-width:44ch}
+.expertise .prov{padding:14vh 0 0;margin-top:14vh;border-top:1px solid rgba(255,255,255,.14);background:transparent}
+.dz .qa details{border-bottom-color:rgba(255,255,255,.14)}
+.dz .qa details p{color:rgba(255,255,255,.65)}
+.mq.dz{padding:10vh 0 4vh}
+.mq.dz .row.b span{color:rgba(255,255,255,.3)}
+.mq.dz .row.b span em{color:var(--teal)}
+.mq.dz span::after{background:linear-gradient(90deg,var(--teal) 50%,#fff 50%)}
+footer{border-radius:0;background:linear-gradient(180deg,var(--navy),var(--night) 45%);padding-top:12vh}
+
+@media (max-width:960px){
+  .pl-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ex-trust{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){
+  .pl-grid{grid-template-columns:minmax(0,1fr)}
+  .pl:nth-child(even){margin-top:0}
+  .pl-fade{height:24vh}
+}
 </style>
 </head>
 <body>
@@ -290,36 +348,44 @@ body{font-weight:700}
 
 <nav id="nav">
   <a class="logo" href="#top"><img class="lg lg-c" src="assets/challenge-care-logo.svg" alt="Challenge Care Pharmacy"><img class="lg lg-w" src="assets/challenge-care-logo-white.svg" alt="" aria-hidden="true"></a>
-  <div class="links"><a href="#services">Services</a><a href="#how">Patients</a><a href="#providers">Providers</a><a href="#therapies">Therapies</a><a href="#setting">Locations</a></div>
+  <div class="links"><a href="#services">Services</a><a href="#how">Patients</a><a href="#providers">Providers</a><a href="#therapies">Therapies</a><a href="#sx-settings">Locations</a></div>
   <a class="pillbtn" href="#visit">Refer a patient</a>
 </nav>
 
 <main id="top">
   <!-- 1 -->
-  <section class="intro" id="intro">
+  <section class="intro" id="intro" data-tone="light">
     <div class="copy">
       <span class="cap">Challenge Care · Specialty infusion</span>
       <h1><span class="l"><span>Infusion care,</span></span><span class="l"><span><em>made simple.</em></span></span></h1>
       <p class="lead">From referral to treatment — clinical expertise, personal support and therapy at home or in our infusion centers.</p>
-      <div class="row"><a class="pillbtn fill" href="#visit">Refer a patient</a><a class="pillbtn" href="#setting">Find a location</a></div>
+      <div class="row"><a class="pillbtn fill" href="#visit">Refer a patient</a><a class="pillbtn" href="#sx-settings">Find a location</a></div>
     </div>
-    <div class="arch"><img src="https://images.unsplash.com/photo-1576091358783-a212ec293ff3?w=2000&q=80" alt="Pharmacist explaining a medicine to a customer"><div class="shade"></div></div>
+    <div class="arch"><img src="https://images.unsplash.com/photo-1576091358783-a212ec293ff3?w=2000&q=80" alt="Pharmacist explaining a medicine to a customer"><div class="shade"></div><div class="tonavy"></div></div>
     <div class="over">
       <h2>Therapy at home, or in our centers — with a team <em>beside you.</em></h2>
       <p>Our clinical team works with you and your provider every step of the way, so care feels seamless wherever you receive it.</p>
     </div>
   </section>
 
-  <!-- 3 -->
-  <section class="hz" id="simple">
-    <div class="track" id="track">
-      <div class="lead"><span class="cap">Infusion care, made simple</span><h2>From referral to <em>treatment.</em></h2><p>Every detail handled, so patients can focus on getting better.</p></div>
-      <article class="svc"><div class="ph"><img src="https://images.unsplash.com/photo-1580281657527-47f249e8f4df?w=1200&q=75" alt="Clinician preparing medication"><span class="n">01</span></div><h3>Fast track to <em>treatment</em></h3><p>Quick referral review and coordination help patients start therapy sooner.</p></article>
-      <article class="svc"><div class="ph"><img src="https://images.unsplash.com/photo-1576091358783-a212ec293ff3?w=1200&q=75" alt="Clinician talking with a patient"><span class="n">02</span></div><h3>Seamless <em>coordination</em></h3><p>Benefits verification, prior authorization, financial guidance and scheduling — managed with care.</p></article>
-      <article class="svc"><div class="ph"><img src="https://images.unsplash.com/photo-1557704443-fcac48363e6b?w=1200&q=75" alt="Patient at home with medication"><span class="n">03</span></div><h3>Flexible treatment <em>options</em></h3><p>Receive therapy at home or in one of our comfortable infusion centers.</p></article>
-      <article class="svc"><div class="ph"><img src="https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=1200&q=75" alt="Blister packs of medication"><span class="n">04</span></div><h3>Comprehensive <em>support</em></h3><p>Dedicated clinical oversight, proactive communication and personal support throughout treatment.</p></article>
+  <!-- 2 · challenge → solution (one pinned dark chapter) -->
+  <section class="care" id="care" data-tone="dark">
+    <canvas id="pts"></canvas>
+    <div class="pn on" data-shape="0"><span class="tag cap">Our promise</span><h2>More than a treatment — part of <em>your life.</em></h2><p>Healthcare can be complicated. Accessing treatment shouldn’t be. We remove the barriers and make infusion care easier to fit into your life.</p></div>
+    <div class="pn right" data-shape="1"><span class="tag cap">Made simple</span><h2>Infusion care, <em>made simple.</em></h2><p>Quick referral review, benefits verification, prior authorization, financial guidance and scheduling — every detail managed with care.</p></div>
+    <div class="dots"><b class="on"></b><b></b></div>
+  </section>
+
+  <!-- 3 · the four pillars (continues the solution, fades navy → light) -->
+  <section class="pillars" id="pillars" data-tone="dark">
+    <div class="pl-head"><h2>From referral to <em>treatment.</em></h2><p data-reveal>Every detail handled, so patients can focus on getting better.</p></div>
+    <div class="pl-grid">
+      <article class="pl" data-reveal><div class="ph"><img src="https://images.unsplash.com/photo-1580281657527-47f249e8f4df?w=1200&q=75" alt="Clinician preparing medication"><span class="n">01</span></div><h3>Fast track to <em>treatment</em></h3><p>Quick referral review and coordination help patients start therapy sooner.</p></article>
+      <article class="pl" data-reveal><div class="ph"><img src="https://images.unsplash.com/photo-1576091358783-a212ec293ff3?w=1200&q=75" alt="Clinician talking with a patient"><span class="n">02</span></div><h3>Seamless <em>coordination</em></h3><p>Benefits verification, prior authorization, financial guidance and scheduling — managed with care.</p></article>
+      <article class="pl" data-reveal><div class="ph"><img src="https://images.unsplash.com/photo-1557704443-fcac48363e6b?w=1200&q=75" alt="Patient at home with medication"><span class="n">03</span></div><h3>Flexible treatment <em>options</em></h3><p>Receive therapy at home or in one of our comfortable infusion centers.</p></article>
+      <article class="pl" data-reveal><div class="ph"><img src="https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=1200&q=75" alt="Blister packs of medication"><span class="n">04</span></div><h3>Comprehensive <em>support</em></h3><p>Dedicated clinical oversight, proactive communication and personal support throughout treatment.</p></article>
     </div>
-    
+    <div class="pl-fade" aria-hidden="true"><span data-tone="dark"></span><span data-tone="light"></span></div>
   </section>
 
   <!-- services -->
@@ -340,12 +406,12 @@ body{font-weight:700}
         </article><article class="sx">
           <div class="sx-ph"><img src="https://images.unsplash.com/photo-1512069772995-ec65ed45afd6?w=1400&q=75" alt=""><span class="sx-n">03</span></div>
           <div class="sx-body"><h3>Subcutaneous therapy</h3><p>Under-the-skin therapies with hands-on training and ongoing support for patients and caregivers.</p><ul><li>Subcutaneous immunoglobulin (SCIG)</li><li>Subcutaneous biologics, e.g. Vyvgart Hytrulo™</li><li>Self-administration training</li><li>Supplies coordinated for you</li></ul><a class="sx-go" href="#visit">Discuss this service <span>→</span></a></div>
-        </article></div><div class="sx-group" id="sx-settings" data-cat="settings"><div class="sx-gh"><span>02</span>Sites of care</div><article class="sx">
+        </article></div><div class="sx-group" id="sx-settings" data-cat="settings"><div class="sx-gh"><span>02</span>Sites of care</div><p class="sx-lead">Care in the setting that’s right for you.</p><article class="sx">
           <div class="sx-ph"><img src="https://images.unsplash.com/photo-1557704443-fcac48363e6b?w=1400&q=75" alt=""><span class="sx-n">04</span></div>
-          <div class="sx-body"><h3>Home infusion</h3><p>Specialized therapy where you’re most comfortable. Our clinical team coordinates, administers and supports treatment in your home.</p><ul><li>No travel to a facility</li><li>Familiar surroundings, family close by</li><li>Scheduled around work and routines</li><li>One-on-one care from infusion professionals</li></ul><a class="sx-go" href="#visit">Discuss this service <span>→</span></a></div>
+          <div class="sx-body"><h3>Home infusion</h3><p class="sx-short">Expert care in the comfort of home — no travel, familiar surroundings, scheduling around your day.</p><p>Specialized therapy where you’re most comfortable. Our clinical team coordinates, administers and supports treatment in your home.</p><ul><li>No travel to a facility</li><li>Familiar surroundings, family close by</li><li>Scheduled around work and routines</li><li>One-on-one care from infusion professionals</li></ul><a class="sx-go" href="#visit">Learn more <span>→</span></a></div>
         </article><article class="sx">
           <div class="sx-ph"><img src="https://images.unsplash.com/photo-1556741533-927182355585?w=1400&q=75" alt=""><span class="sx-n">05</span></div>
-          <div class="sx-body"><h3>Infusion centers</h3><p>Comfortable infusion suites with flexible scheduling and a dedicated team — the same expert care as at home.</p><ul><li>Comfortable private suites</li><li>Flexible appointment times</li><li>Dedicated clinical support</li><li>[Center locations]</li></ul><a class="sx-go" href="#visit">Discuss this service <span>→</span></a></div>
+          <div class="sx-body"><h3>Infusion centers</h3><p class="sx-short">Comfortable infusion suites with flexible scheduling and dedicated support.</p><p>Comfortable infusion suites with flexible scheduling and a dedicated team — the same expert care as at home.</p><ul><li>Comfortable private suites</li><li>Flexible appointment times</li><li>Dedicated clinical support</li><li>[Center locations]</li></ul><a class="sx-go" href="#visit">Find a location <span>→</span></a></div>
         </article></div><div class="sx-group" id="sx-access" data-cat="access"><div class="sx-gh"><span>03</span>Access & coverage</div><article class="sx">
           <div class="sx-ph"><img src="https://images.unsplash.com/photo-1576091358783-a212ec293ff3?w=1400&q=75" alt=""><span class="sx-n">06</span></div>
           <div class="sx-body"><h3>Benefits & authorization</h3><p>We work directly with your insurer before treatment starts, so there are no surprises.</p><ul><li>Benefits verification</li><li>Prior authorization handled</li><li>Out-of-pocket costs explained</li><li>Updates at every step</li></ul><a class="sx-go" href="#visit">Discuss this service <span>→</span></a></div>
@@ -360,81 +426,69 @@ body{font-weight:700}
 
   <!-- 4 -->
   <section class="steps" id="how">
-    <div class="head"><h2>Your journey, <em>every step.</em></h2><p>New to infusion therapy or transferring your care, our team guides you from first call to ongoing support.</p></div>
+    <div class="head"><h2>Your journey, <em>every step.</em></h2><p data-reveal>New to infusion therapy or transferring your care, our team guides you from first call to ongoing support.</p></div>
     <div class="stack">
       <article class="scard"><div class="txt"><span class="num">01</span><div><h3>Getting started.</h3><p>We connect with you to understand your needs, answer your questions and guide you through the next steps.</p></div></div><div class="ph"><img src="https://images.unsplash.com/photo-1576091358783-a212ec293ff3?w=1400&q=75" alt="Clinician with patient"></div></article>
       <article class="scard"><div class="txt"><span class="num">02</span><div><h3>Coverage &amp; scheduling.</h3><p>We navigate insurance, authorization, available financial assistance and scheduling for you.</p></div></div><div class="ph"><img src="https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=1400&q=75" alt="Medication packs"></div></article>
       <article class="scard"><div class="txt"><span class="num">03</span><div><h3>Receiving your therapy.</h3><p>At home or in one of our infusion centers, supported by an experienced clinical team.</p></div></div><div class="ph"><img src="https://images.unsplash.com/photo-1557704443-fcac48363e6b?w=1400&q=75" alt="Patient at home"></div></article>
-      <article class="scard"><div class="txt"><span class="num">04</span><div><h3>Ongoing support.</h3><p>We stay connected throughout your therapy to coordinate every ongoing treatment need.</p></div></div><div class="ph"><img src="https://images.unsplash.com/photo-1580281657527-47f249e8f4df?w=1400&q=75" alt="Clinician at the shelves"></div></article>
+      <article class="scard"><div class="txt"><span class="num">04</span><div><h3>Ongoing support.</h3><p>We stay connected throughout your therapy to coordinate every ongoing treatment need.</p><p class="sub"><em>Support you can count on.</em> Dedicated clinical oversight, proactive communication and personalized support throughout your treatment journey.</p></div></div><div class="ph"><img src="https://images.unsplash.com/photo-1580281657527-47f249e8f4df?w=1400&q=75" alt="Clinician at the shelves"></div></article>
+      <div class="rail" aria-hidden="true"><i></i><b style="top:0"></b><b style="top:33.333%"></b><b style="top:66.666%"></b><b style="top:100%"></b></div>
     </div>
   </section>
 
-  <!-- 2 · particle chapter -->
-  <section class="care" id="care">
-    <canvas id="pts"></canvas>
-    <div class="pn on" data-shape="0"><span class="tag cap">Experience you can trust</span><h2>Care designed around the <em>patient.</em></h2><p>For [X]+ years we have delivered specialized infusion, injectable and subcutaneous therapies for complex chronic and acute conditions — in the setting that works best for each patient.</p></div>
-    <div class="pn right" data-shape="1"><span class="tag cap">01 · Made simple</span><h2>Infusion care, <em>made simple.</em></h2><p>Quick referral review, benefits verification, prior authorization, financial guidance and scheduling — every detail managed with care.</p><div class="chips"><span>Fast track to treatment</span><span>Seamless coordination</span><span>Flexible options</span><span>Comprehensive support</span></div></div>
-    <div class="pn" data-shape="2"><span class="tag cap">02 · Our promise</span><h2>More than a treatment — part of <em>your life.</em></h2><p>Healthcare can be complicated. Accessing treatment shouldn’t be. We remove the barriers and make infusion care easier to fit into your life.</p></div>
-    <div class="pn right" data-shape="3"><span class="tag cap">03 · Support</span><h2>Support you can <em>count on.</em></h2><p>Dedicated clinical oversight, proactive communication and personalized support throughout your treatment journey.</p><div class="chips"><span>Clinical oversight</span><span>Proactive communication</span><span>Personalized support</span></div></div>
-    <div class="dots"><b class="on"></b><b></b><b></b><b></b></div>
-  </section>
-
   <!-- 5 -->
-  <section class="zoom" id="zoom">
+  <section class="zoom" id="zoom" data-tone="light">
     <div class="bgimg"><img src="https://images.unsplash.com/photo-1656331797721-b593b8f00297?w=2000&q=80" alt="Abstract white molecular structure"></div>
     <svg id="zsvg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
       <defs><mask id="zm"><rect width="1600" height="900" fill="#fff"/><text x="800" y="560" text-anchor="middle" font-family="Century Gothic Pro, sans-serif" font-weight="700" font-size="420" letter-spacing="-18" fill="#000">care</text></mask></defs>
       <rect width="1600" height="900" fill="#f3f5f4" mask="url(#zm)"/>
     </svg>
+    <div class="navyfade"></div>
     <div class="msg"><div><h2>Specialized therapies for<br><em>complex</em> conditions.</h2><p>Chronic, autoimmune, neurologic, immunologic and rare conditions — personalized care in the setting that works best.</p></div></div>
   </section>
 
+  <!-- 6 · our expertise: what we treat, why trust us, for providers -->
+  <section class="expertise dz" id="expertise" data-tone="dark">
   <!-- conditions & therapies -->
-  <section class="ct" id="therapies">
+  <div class="ex-ct ct" id="therapies">
     <div class="ct-head"><span class="cap">Conditions &amp; therapies</span><h2>What we <em>treat.</em></h2></div>
     <div class="ct-lists">
-      <div><span class="cap lh">Conditions we treat</span><ul><li><span>01</span>CIDP & peripheral neuropathies</li><li><span>02</span>Multiple sclerosis</li><li><span>03</span>Myasthenia gravis</li><li><span>04</span>Rheumatoid arthritis</li><li><span>05</span>Alpha-1 antitrypsin deficiency</li><li><span>06</span>Psoriatic arthritis</li><li class="more"><span>+</span>And more</li></ul></div>
-      <div><span class="cap lh">Specialized therapies</span><ul><li><span>01</span>IVIG (Gammagard, Octagam, Gamunex-C, Privigen)</li><li><span>02</span>Ocrevus™</li><li><span>03</span>Rituxan™</li><li><span>04</span>Remicade™</li><li><span>05</span>Entyvio™</li><li><span>06</span>Stelara™</li><li class="more"><span>+</span>And more</li></ul></div>
+      <div data-reveal><span class="cap lh">Conditions we treat</span><ul><li><span>01</span>CIDP & peripheral neuropathies</li><li><span>02</span>Multiple sclerosis</li><li><span>03</span>Myasthenia gravis</li><li><span>04</span>Rheumatoid arthritis</li><li><span>05</span>Alpha-1 antitrypsin deficiency</li><li><span>06</span>Psoriatic arthritis</li><li class="more"><span>+</span>And more</li></ul></div>
+      <div data-reveal><span class="cap lh">Specialized therapies</span><ul><li><span>01</span>IVIG (Gammagard, Octagam, Gamunex-C, Privigen)</li><li><span>02</span>Ocrevus™</li><li><span>03</span>Rituxan™</li><li><span>04</span>Remicade™</li><li><span>05</span>Entyvio™</li><li><span>06</span>Stelara™</li><li class="more"><span>+</span>And more</li></ul></div>
     </div>
-    <div class="ask"><p>Don’t see the condition or therapy you’re looking for?</p><a class="pillbtn" href="#visit">Contact our team</a></div>
-  </section>
-
-  <!-- site of care -->
-  <section class="setting" id="setting">
-    <div class="ct-head"><span class="cap">Site of care</span><h2>Care in the setting that’s right <em>for you.</em></h2></div>
-    <div class="sides">
-      <a class="side" href="#visit"><div class="ph"><img src="https://images.unsplash.com/photo-1557704443-fcac48363e6b?w=1400&q=75" alt="Home infusion"></div><div class="lab"><h3>Home <em>infusion</em></h3><p>Expert care in the comfort of home — no travel, familiar surroundings, scheduling around your day.</p><span class="pillbtn">Learn more</span></div></a>
-      <a class="side" href="#visit"><div class="ph"><img src="https://images.unsplash.com/photo-1556741533-927182355585?w=1400&q=75" alt="Infusion center"></div><div class="lab"><h3>Infusion <em>centers</em></h3><p>Comfortable infusion suites with flexible scheduling and dedicated support.</p><span class="pillbtn">Find a location</span></div></a>
+    <div class="ask" data-reveal><p>Don’t see the condition or therapy you’re looking for?</p><a class="pillbtn" href="#visit">Contact our team</a></div>
+  </div>
+    <div class="ex-trust">
+      <span class="cap">Experience you can trust</span>
+      <h2>Care designed around the <em>patient.</em></h2>
+      <p data-reveal>For [X]+ years we have delivered specialized infusion, injectable and subcutaneous therapies for complex chronic and acute conditions — in the setting that works best for each patient.</p>
     </div>
-  </section>
-
-  <!-- providers -->
-  <section class="prov" id="providers">
+  <div class="prov ex-prov" id="providers">
     <div class="pv-l">
       <span class="cap">For providers</span>
       <h2 class="">Trusted by providers. <em>Centered on patients.</em></h2>
-      <p>Each referral begins with trust — a patient trusting their provider, and a provider trusting us. We bring flexible care options, seamless coordination, clinical expertise and compassionate support.</p>
-      <div class="pv-ways"><span>Secure online referral</span><span>Referral forms</span><span>eFax</span></div>
+      <p data-reveal>Each referral begins with trust — a patient trusting their provider, and a provider trusting us. We bring flexible care options, seamless coordination, clinical expertise and compassionate support.</p>
+      <div class="pv-ways" data-reveal><span>Secure online referral</span><span>Referral forms</span><span>eFax</span></div>
       <a class="pillbtn fill" href="#visit">Refer a patient</a>
-      <ul class="pv-checks"><li>[Health plans / networks]</li><li>[Licensing &amp; coverage area]</li><li>Home infusion and infusion centers</li><li>[Accreditation]</li></ul>
+      <ul class="pv-checks" data-reveal><li>[Health plans / networks]</li><li>[Licensing &amp; coverage area]</li><li>Home infusion and infusion centers</li><li>[Accreditation]</li></ul>
     </div>
-    <ol class="pv-steps"><li><span class="sv-n">01</span><div><h4>Referral intake</h4><p>We promptly review each referral and begin coordinating next steps.</p></div></li><li><span class="sv-n">02</span><div><h4>Care coordination</h4><p>Prior authorization, onboarding, financial guidance and scheduling — handled.</p></div></li><li><span class="sv-n">03</span><div><h4>Care delivered</h4><p>Patients receive high-quality infusion care in the most appropriate setting.</p></div></li><li><span class="sv-n">04</span><div><h4>Continuity of care</h4><p>Proactive communication, clinical oversight and ongoing support.</p></div></li></ol>
+    <ol class="pv-steps"><li data-reveal><span class="sv-n">01</span><div><h4>Referral intake</h4><p>We promptly review each referral and begin coordinating next steps.</p></div></li><li data-reveal><span class="sv-n">02</span><div><h4>Care coordination</h4><p>Prior authorization, onboarding, financial guidance and scheduling — handled.</p></div></li><li data-reveal><span class="sv-n">03</span><div><h4>Care delivered</h4><p>Patients receive high-quality infusion care in the most appropriate setting.</p></div></li><li data-reveal><span class="sv-n">04</span><div><h4>Continuity of care</h4><p>Proactive communication, clinical oversight and ongoing support.</p></div></li></ol>
+  </div>
   </section>
 
   <!-- faq -->
-  <section class="faq" id="faq">
+  <section class="faq dz" id="faq" data-tone="dark">
     <div class="ct-head"><span class="cap">FAQ</span><h2>Questions? We’re here <em>to help.</em></h2></div>
-    <div class="qa"><details><summary>What conditions do you treat?<i></i></summary><p>We provide infusion, injectable and subcutaneous therapies for a wide range of chronic and acute conditions — including autoimmune disorders, neurological conditions, immunodeficiencies and more.</p></details><details><summary>Can I receive treatment at home?<i></i></summary><p>Yes. Depending on your therapy, insurance coverage and clinical needs, treatment can be given in the comfort of your home or at one of our infusion centers.</p></details><details><summary>Will my insurance cover infusion therapy?<i></i></summary><p>We work directly with your insurer to verify benefits, confirm coverage and explain any out-of-pocket costs before treatment begins — and keep you informed at every step.</p></details><details><summary>Do I need a referral from my healthcare provider?<i></i></summary><p>Yes. A referral from your healthcare provider is required. Our team works closely with your provider to coordinate the documentation and approvals.</p></details><details><summary>Can I switch from another infusion provider?<i></i></summary><p>Yes. We can coordinate your transition from a hospital, physician office, home infusion provider or another infusion center.</p></details><details><summary>What happens at my first infusion appointment?<i></i></summary><p>Your care team reviews your treatment, answers your questions and explains what to expect. You’re monitored throughout so you stay comfortable before, during and after.</p></details></div>
+    <div class="qa"><details data-reveal><summary>What conditions do you treat?<i></i></summary><p>We provide infusion, injectable and subcutaneous therapies for a wide range of chronic and acute conditions — including autoimmune disorders, neurological conditions, immunodeficiencies and more.</p></details><details data-reveal><summary>Can I receive treatment at home?<i></i></summary><p>Yes. Depending on your therapy, insurance coverage and clinical needs, treatment can be given in the comfort of your home or at one of our infusion centers.</p></details><details data-reveal><summary>Will my insurance cover infusion therapy?<i></i></summary><p>We work directly with your insurer to verify benefits, confirm coverage and explain any out-of-pocket costs before treatment begins — and keep you informed at every step.</p></details><details data-reveal><summary>Do I need a referral from my healthcare provider?<i></i></summary><p>Yes. A referral from your healthcare provider is required. Our team works closely with your provider to coordinate the documentation and approvals.</p></details><details data-reveal><summary>Can I switch from another infusion provider?<i></i></summary><p>Yes. We can coordinate your transition from a hospital, physician office, home infusion provider or another infusion center.</p></details><details data-reveal><summary>What happens at my first infusion appointment?<i></i></summary><p>Your care team reviews your treatment, answers your questions and explains what to expect. You’re monitored throughout so you stay comfortable before, during and after.</p></details></div>
   </section>
 
-  <!-- 6 -->
-  <section class="mq" aria-hidden="true">
-    <div class="row a"><span>Multiple sclerosis</span><span><em>Myasthenia gravis</em></span><span>Crohn’s disease</span><span><em>Immunodeficiency</em></span><span>Rheumatoid arthritis</span></div>
+  <!-- closing divider into the final call to action -->
+  <section class="mq dz" data-tone="dark" aria-hidden="true">
     <div class="row b"><span>Home infusion</span><span><em>infusion centers</em></span><span>IVIG therapy</span><span><em>care that fits your life</em></span></div>
   </section>
 </main>
 
-<footer id="visit">
+<footer id="visit" data-tone="dark">
   <img class="flogo" src="assets/challenge-care-logo-white.svg" alt="Challenge Care Pharmacy">
   <div class="row">
     <h2 class="big">Ready to get<br><em>started?</em></h2>
@@ -454,8 +508,10 @@ body{font-weight:700}
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
 <script>
 gsap.registerPlugin(ScrollTrigger);
+ScrollTrigger.config({ ignoreMobileResize: true });       // phone address-bar show/hide must not re-measure every pin
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const mobile = matchMedia('(max-width: 820px)').matches;
+const EASE = 'power3.out', DUR = .9, STAG = .1;             // the one motion vocabulary used for every entrance
 
 // smooth scroll driven by GSAP's ticker so pins and scrubs stay in sync
 let lenis = null;
@@ -470,15 +526,26 @@ document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click
   e.preventDefault(); lenis ? lenis.scrollTo(el, { duration: 1.6 }) : el.scrollIntoView({ behavior: 'smooth' });
 }));
 
-// nav: hide on scroll down, white text over dark scenes
+// header: always visible; its colour follows whatever is under it. Sections declare data-tone="dark|light".
 const nav = document.getElementById('nav');
-// the header stays on screen at all times (no background bar)
+function navTone() {
+  let tone = 'light';
+  for (const el of document.elementsFromPoint(innerWidth / 2, 38)) {
+    if (nav.contains(el)) continue;
+    const t = el.closest('[data-tone]');
+    if (t) { tone = t.dataset.tone; break; }
+  }
+  nav.classList.toggle('dark', tone === 'dark');
+}
+ScrollTrigger.create({ onUpdate: navTone });
+ScrollTrigger.addEventListener('refresh', navTone);
+ScrollTrigger.addEventListener('scrollEnd', navTone);       // settle once scrolling stops
+addEventListener('load', navTone);
 
-// intro entrance
-gsap.from('.intro h1 .l>span', { yPercent: 105, duration: 1.3, ease: 'expo.out', stagger: .1, delay: .1 });
+// ── 1 · hero: entrance, then the arch photo grows to full bleed and darkens into the navy chapter
+gsap.from('.intro h1 .l>span', { yPercent: 105, duration: 1.3, ease: 'expo.out', stagger: STAG, delay: .1 });
 gsap.from('.intro .cap, .intro .lead, .intro .copy .row', { opacity: 0, y: 16, duration: 1.1, ease: 'expo.out', stagger: .08, delay: .4 });
 gsap.from('.intro .arch', { opacity: 0, duration: 1.4, ease: 'power2.out' });
-// frame the whole photo inside the arch: shrink the full-screen image so it just covers the arch box, centred on it
 const probe = document.createElement('div'); probe.style.cssText = 'position:absolute;visibility:hidden;pointer-events:none'; document.body.appendChild(probe);
 const gutPx = () => (probe.style.paddingLeft = 'var(--gut)', parseFloat(getComputedStyle(probe).paddingLeft));
 const archBox = () => {            // the arch lives inside the page margins, so it lines up with the hero text on any screen
@@ -493,43 +560,23 @@ function archImg() {
   return { x: cx - W / 2, y: cy - H / 2, scale: Math.max(aw / W, ah / H) };
 }
 gsap.set('.intro .arch img', archImg());
-
-// 1 · arch photo expands to full bleed, copy steps aside, overlay message arrives
+const introEl = document.getElementById('intro');
 const intro = gsap.timeline({ scrollTrigger: { trigger: '#intro', start: 'top top', end: '+=140%', scrub: 1, pin: true, invalidateOnRefresh: true,
-  onUpdate: s => nav.classList.toggle('dark', s.progress > .4 && s.progress < 1) } });
-// clip-path only (no layout changes) so the reveal stays on the compositor and scrubs smoothly
+  onUpdate: s => { introEl.dataset.tone = s.progress > .4 ? 'dark' : 'light'; navTone(); } } });
 const archFrom = () => { const b = archBox(); return mobile ? `inset(12vh ${b.g}px 48vh ${b.g}px round ${b.aw / 2}px ${b.aw / 2}px 24px 24px)` : `inset(14vh ${b.g}px 10vh ${b.left}px round ${b.aw / 2}px ${b.aw / 2}px 28px 28px)`; };
 intro.fromTo('.intro .arch', { clipPath: () => archFrom() }, { clipPath: 'inset(0vh 0vw 0vh 0vw round 0vw 0vw 0px 0px)', ease: 'none' }, 0)
      .fromTo('.intro .arch img', { x: () => archImg().x, y: () => archImg().y, scale: () => archImg().scale }, { x: 0, y: 0, scale: 1, ease: 'none' }, 0)
      .to('.intro .copy', { x: mobile ? 0 : -80, opacity: 0, ease: 'power2.in', duration: .45 }, 0)
      .to('.intro .shade', { opacity: 1, ease: 'none', duration: .4 }, .5)
-     .fromTo('.intro .over', { opacity: 0, y: 40 }, { opacity: 1, y: 0, ease: 'power2.out', duration: .4 }, .6);
+     .fromTo('.intro .over', { opacity: 0, y: 40 }, { opacity: 1, y: 0, ease: 'power2.out', duration: .4 }, .6)
+     .to('.intro .tonavy', { opacity: 1, ease: 'none', duration: .3 }, .7);      // photo settles into the chapter's navy
 
-// 3 · horizontal services
-const track = document.getElementById('track');
-const dist = () => track.scrollWidth - innerWidth;
-const hz = gsap.to(track, { x: () => -dist(), ease: 'none',
-  scrollTrigger: { trigger: '#simple', start: 'top top', end: () => '+=' + dist(), scrub: 1, pin: true, invalidateOnRefresh: true,
-    onToggle: s => nav.classList.toggle('dark', s.isActive) } });
-track.querySelectorAll('.svc img').forEach(img => gsap.fromTo(img, { xPercent: -8 }, { xPercent: 8, ease: 'none',
-  scrollTrigger: { trigger: img.closest('.svc'), containerAnimation: hz, start: 'left right', end: 'right left', scrub: true } }));
-
-// 4 · stacking cards: each card sinks back as the next one arrives
-const cards = gsap.utils.toArray('.scard');
-cards.forEach((c, i) => {
-  gsap.from(c.querySelector('.ph img'), { scale: 1.25, ease: 'none', scrollTrigger: { trigger: c, start: 'top bottom', end: 'top 12%', scrub: true } });
-  if (i === cards.length - 1) return;
-  gsap.to(c, { scale: .92 - (cards.length - 2 - i) * .02, ease: 'none',
-    scrollTrigger: { trigger: cards[i + 1], start: 'top bottom', end: 'top 14%', scrub: true } });
-});
-
-// 2 · particle chapter: pinned; scroll position picks which shape / message is active
+// ── 2 · challenge → solution: one pinned chapter, two states (capsule → cross)
 const careEl = document.getElementById('care');
 const cPanels = [...careEl.querySelectorAll('.pn')], cDots = [...careEl.querySelectorAll('.dots b')];
 window.__care = { shape: 0, x: 2.1, st: null };
 let cIdx = -1;
-window.__care.st = ScrollTrigger.create({ trigger: careEl, start: 'top top', end: '+=260%', pin: true, invalidateOnRefresh: true,
-  onToggle: st => nav.classList.toggle('dark', st.isActive),
+window.__care.st = ScrollTrigger.create({ trigger: careEl, start: 'top top', end: '+=150%', pin: true, invalidateOnRefresh: true,
   onUpdate: st => {
     const i = Math.min(cPanels.length - 1, Math.floor(st.progress * cPanels.length));
     if (i === cIdx) return; cIdx = i;
@@ -539,9 +586,56 @@ window.__care.st = ScrollTrigger.create({ trigger: careEl, start: 'top top', end
     window.__care.x = (cPanels[i].classList.contains('right') ? -1 : 1) * (innerWidth < 900 ? 0 : 2.1);
   } });
 
-// 5 · zoom through the word "care" into the image
-const ztl = gsap.timeline({ scrollTrigger: { trigger: '#zoom', start: 'top top', end: '+=180%', scrub: 1, pin: true,
-  onUpdate: s => nav.classList.toggle('dark', s.progress > .45 && s.progress < 1) } });
+// ── helpers for the quieter, un-pinned sections: word-by-word heading reveals + one shared stagger
+function splitWords(root) {
+  (function walk(n) {
+    [...n.childNodes].forEach(c => {
+      if (c.nodeType === 3) {
+        const f = document.createDocumentFragment();
+        c.textContent.split(/(\s+)/).forEach(t => {
+          if (!t) return;
+          if (/^\s+$/.test(t)) { f.append(t); return; }
+          const o = document.createElement('span'), i = document.createElement('span');
+          o.className = 'sw'; i.textContent = t; o.append(i); f.append(o);
+        });
+        c.replaceWith(f);
+      } else if (c.nodeType === 1 && c.tagName !== 'BR') walk(c);
+    });
+  })(root);
+  return root.querySelectorAll('.sw>span');
+}
+if (!reduce) {
+  ['.pl-head h2', '.steps .head h2', '.ex-ct .ct-head h2', '.ex-trust h2', '.ex-prov h2', '.faq .ct-head h2'].forEach(sel => {
+    const h = document.querySelector(sel); if (!h) return;
+    const words = splitWords(h);
+    gsap.set(words, { yPercent: 110 });
+    ScrollTrigger.create({ trigger: h, start: 'top 88%', once: true,
+      onEnter: () => gsap.to(words, { yPercent: 0, duration: DUR, ease: EASE, stagger: .04 }) });
+  });
+  gsap.set('[data-reveal]', { opacity: 0, y: 32 });
+  ScrollTrigger.batch('[data-reveal]', { start: 'top 90%', once: true,
+    onEnter: els => gsap.to(els, { opacity: 1, y: 0, duration: DUR, ease: EASE, stagger: STAG }) });
+}
+
+// ── 5 · journey: cards stack and sink back; a rail fills as the four steps are reached
+const cards = gsap.utils.toArray('.scard');
+cards.forEach((c, i) => {
+  gsap.from(c.querySelector('.ph img'), { scale: 1.25, ease: 'none', scrollTrigger: { trigger: c, start: 'top bottom', end: 'top 12%', scrub: true } });
+  if (i === cards.length - 1) return;
+  gsap.to(c, { scale: .92 - (cards.length - 2 - i) * .02, ease: 'none',
+    scrollTrigger: { trigger: cards[i + 1], start: 'top bottom', end: 'top 14%', scrub: true } });
+});
+const stackEl = document.querySelector('.stack'), railFill = stackEl.querySelector('.rail i'), railDots = [...stackEl.querySelectorAll('.rail b')];
+ScrollTrigger.create({ trigger: stackEl, start: 'top 65%', end: 'bottom 85%', scrub: true,
+  onUpdate: s => {
+    gsap.set(railFill, { scaleY: s.progress });
+    railDots.forEach((d, k) => d.classList.toggle('on', s.progress >= k / (railDots.length - 1) - .001));
+  } });
+
+// ── 6 · bridge: zoom through "care"; the photo settles into navy so Expertise continues it
+const zoomEl = document.getElementById('zoom');
+const ztl = gsap.timeline({ scrollTrigger: { trigger: '#zoom', start: 'top top', end: '+=120%', scrub: 1, pin: true,
+  onUpdate: s => { zoomEl.dataset.tone = s.progress > .45 ? 'dark' : 'light'; navTone(); } } });
 // aim the zoom at the stem of the "r" so the screen fills with photo, not with the gaps between letters
 function aimZoom() {
   const svg = document.getElementById('zsvg'), text = svg.querySelector('text');
@@ -558,9 +652,10 @@ ztl.fromTo('#zsvg', { scale: 1 }, { scale: 60, ease: 'power3.in', duration: 1 })
    .to('#zsvg', { opacity: 0, duration: .15 }, .85)
    .fromTo('.zoom .bgimg img', { scale: 1.3 }, { scale: 1, ease: 'none', duration: 1.2 }, 0)
    .to('.zoom .msg', { opacity: 1, duration: .3 }, .95)
-   .from('.zoom .msg h2, .zoom .msg p', { y: 50, stagger: .08, duration: .3 }, .95);
+   .from('.zoom .msg h2, .zoom .msg p', { y: 50, stagger: .08, duration: .3 }, .95)
+   .to('.zoom .navyfade', { opacity: 1, ease: 'none', duration: .25 }, 1);
 
-// 6 · marquee rows: drift + scroll velocity, opposite directions
+// ── closing divider: one marquee row, speed follows scroll velocity
 const rows = gsap.utils.toArray('.mq .row').map((r, i) => {
   r.innerHTML += r.innerHTML + r.innerHTML;
   return { r, x: 0, dir: i ? 1 : -1 };
