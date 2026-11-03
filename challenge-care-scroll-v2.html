@@ -144,8 +144,6 @@ body{font-weight:700}
 .sw{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.14em;margin-bottom:-.14em}
 .sw>span{display:inline-block}
 
-.pl-fade{margin:8vh calc(-1*var(--gut)) 0;height:26vh;background:linear-gradient(180deg,var(--navy),var(--bg))}
-.pl-fade span{display:block;height:50%}
 
 /* zoom: ends on navy so Expertise continues it */
 .zoom .navyfade{position:absolute;inset:0;background:var(--navy);opacity:0;pointer-events:none}
@@ -160,7 +158,6 @@ body{font-weight:700}
 footer{border-radius:0;background:linear-gradient(180deg,var(--navy),var(--night) 45%);padding-top:12vh}
 @media (max-width:560px){
 
-  .pl-fade{height:18vh}
 }
 
 /* ═══════ sections 2–10 (story pass) ═══════ */
@@ -169,7 +166,7 @@ footer{border-radius:0;background:linear-gradient(180deg,var(--navy),var(--night
 .tag::before{content:"";width:30px;height:1px;background:currentColor}
 
 /* 2 · promise */
-.promise{position:relative;padding:16vh var(--gut) 0;overflow:hidden}
+.promise{position:relative;padding:6vh var(--gut) 0;overflow:hidden}
 .promise::before{content:"";position:absolute;right:calc(var(--gut) - 16vw);top:4vh;width:min(60vw,820px);aspect-ratio:1;border-radius:50%;background:radial-gradient(closest-side,rgba(54,179,189,.16),rgba(54,179,189,0) 70%);pointer-events:none}
 .pr-grid{position:relative;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,.8fr);gap:clamp(30px,6vw,110px);align-items:end}
 .pr-h{font-weight:700;font-size:clamp(36px,5.4vw,80px);line-height:1;letter-spacing:-.03em;margin-top:26px}
@@ -182,12 +179,9 @@ footer{border-radius:0;background:linear-gradient(180deg,var(--navy),var(--night
 .pr-col h3{font-weight:700;font-size:clamp(23px,2.4vw,36px);line-height:1.1;letter-spacing:-.02em;max-width:22ch}
 .pr-col h3 em{color:var(--teal)}
 .pr-col p{margin-top:16px;color:rgba(255,255,255,.66);font-size:17px;line-height:1.6;max-width:46ch}
-.pr-link{position:relative;height:16vh;margin-top:7vh;display:flex;justify-content:center}
-.pr-link i{display:block;width:2px;height:100%;background:var(--teal);transform-origin:top;transform:scaleY(0)}
-.pr-link::after{content:"";position:absolute;left:50%;bottom:-5px;width:10px;height:10px;margin-left:-5px;border-radius:50%;background:var(--teal)}
 
 /* 3 · from referral to treatment */
-.flow{position:relative;padding:5vh var(--gut) 0}
+.flow{position:relative;padding:14vh var(--gut)}
 .fl-head{text-align:center}
 .fl-head h2{font-weight:700;font-size:clamp(32px,4.4vw,62px);line-height:1.02;letter-spacing:-.025em}
 .fl-head h2 em{color:var(--teal)}
@@ -435,14 +429,12 @@ footer .ctas .pillbtn.fill{height:58px;padding:0 34px;box-shadow:0 18px 40px -18
       <div class="pr-col" data-reveal><h3>Infusion care, <em>made simple.</em></h3><p>Quick referral review, benefits verification, prior authorization, financial guidance and scheduling — every detail managed with care.</p></div>
       <div class="pr-col" data-reveal><h3>Therapy at home, or in our centers — with a team <em>beside you.</em></h3><p>Our clinical team works with you and your provider every step of the way, so care feels seamless wherever you receive it.</p></div>
     </div>
-    <div class="pr-link" aria-hidden="true"><i></i></div>
   </section>
 
   <!-- 3 · From referral to treatment: four connected steps -->
   <section class="flow dz" id="pillars" data-tone="dark">
     <div class="fl-head"><h2>From referral to <em>treatment.</em></h2><p data-reveal>Every detail handled, so patients can focus on getting better.</p></div>
     <div class="fl-wrap"><span class="fl-track" aria-hidden="true"><i></i></span><ol class="fl-steps"><li class="fl-step"><span class="fl-node">01</span><div class="fl-body"><div class="fl-ph"><img src="https://images.unsplash.com/photo-1580281657527-47f249e8f4df?w=1000&q=75" alt="Clinician preparing medication"></div><h3>Fast track to <em>treatment</em></h3><p>Quick referral review and coordination help patients start therapy sooner.</p></div></li><li class="fl-step"><span class="fl-node">02</span><div class="fl-body"><div class="fl-ph"><img src="https://images.unsplash.com/photo-1576091358783-a212ec293ff3?w=1000&q=75" alt="Clinician talking with a patient"></div><h3>Seamless <em>coordination</em></h3><p>Benefits verification, prior authorization, financial guidance and scheduling — managed with care.</p></div></li><li class="fl-step"><span class="fl-node">03</span><div class="fl-body"><div class="fl-ph"><img src="https://images.unsplash.com/photo-1556741533-927182355585?w=1000&q=75" alt="Infusion center counter"></div><h3>Flexible treatment <em>options</em></h3><p>Receive therapy at home or in one of our comfortable infusion centers.</p></div></li><li class="fl-step"><span class="fl-node">04</span><div class="fl-body"><div class="fl-ph"><img src="https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=1000&q=75" alt="Blister packs of medication"></div><h3>Comprehensive <em>support</em></h3><p>Dedicated clinical oversight, proactive communication and personal support throughout treatment.</p></div></li></ol></div>
-    <div class="pl-fade" aria-hidden="true"><span data-tone="dark"></span><span data-tone="light"></span></div>
   </section>
 
   <!-- 4 · Services: WHAT Challenge Care offers, as four category chapters -->
@@ -616,8 +608,7 @@ intro.fromTo('.intro .arch', { clipPath: () => archFrom() }, { clipPath: 'inset(
      .to('.intro .copy', { x: mobile ? 0 : -80, opacity: 0, ease: 'power2.in', duration: .45 }, 0)
      .to('.intro .shade', { opacity: 1, ease: 'none', duration: .4 }, .5)
      .to('.scrollcue .cue-line', { opacity: 0, ease: 'none', duration: .06 }, 0)          // cue gives way as soon as the user scrolls
-     .to('.intro .tonavy', { opacity: 1, ease: 'none', duration: .3 }, .62)    // photo settles fully into the Promise section's navy…
-     .to({}, { duration: .1 }, .9);                                             // …and holds a beat before the pin releases
+     .to('.intro .tonavy', { opacity: 1, ease: 'none', duration: .3 }, .62);   // photo settles into the Promise section's navy exactly as the pin releases (no empty hold)
 
 // ── shared helpers (created per section, in page order, so pinned sections measure correctly)
 function splitWords(root) {
@@ -637,33 +628,32 @@ function splitWords(root) {
   })(root);
   return root.querySelectorAll('.sw>span');
 }
-function headingIn(sel) {                      // word-by-word heading reveal
+function headingIn(sel, start = 'top 88%') {                      // word-by-word heading reveal
   if (reduce) return;
   const h = document.querySelector(sel); if (!h) return;
   const words = splitWords(h);
   gsap.set(words, { yPercent: 110 });
-  ScrollTrigger.create({ trigger: h, start: 'top 88%', once: true, onEnter: () => gsap.to(words, { yPercent: 0, duration: DUR, ease: EASE, stagger: .04 }) });
+  ScrollTrigger.create({ trigger: h, start, once: true, onEnter: () => gsap.to(words, { yPercent: 0, duration: DUR, ease: EASE, stagger: .04 }) });
 }
-function revealIn(root) {                      // shared fade-up stagger for [data-reveal] inside one section
+function revealIn(root, start = 'top 90%') {                      // shared fade-up stagger for [data-reveal] inside one section
   if (reduce) return;
   const els = gsap.utils.toArray(root + ' [data-reveal]'); if (!els.length) return;
   gsap.set(els, { opacity: 0, y: 32 });
-  ScrollTrigger.batch(els, { start: 'top 90%', once: true, onEnter: b => gsap.to(b, { opacity: 1, y: 0, duration: DUR, ease: EASE, stagger: STAG }) });
+  ScrollTrigger.batch(els, { start, once: true, onEnter: b => gsap.to(b, { opacity: 1, y: 0, duration: DUR, ease: EASE, stagger: STAG }) });
 }
-function imageIn(el) {                         // clip-path image reveal from the bottom edge
+function imageIn(el, start = 'top 85%') {                         // clip-path image reveal from the bottom edge
   if (reduce || !el) return;
   const img = el.querySelector('img');
   gsap.set(el, { clipPath: 'inset(100% 0% 0% 0%)' }); gsap.set(img, { scale: 1.18 });
-  ScrollTrigger.create({ trigger: el, start: 'top 85%', once: true, onEnter: () => {
+  ScrollTrigger.create({ trigger: el, start, once: true, onEnter: () => {
     gsap.to(el, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.3, ease: 'power3.inOut' });
     gsap.to(img, { scale: 1, duration: 1.8, ease: EASE });
   } });
 }
 
-// ── 2 · Promise: one section; image rises in, text staggers, a line drops into "From referral to treatment"
-headingIn('.pr-h'); revealIn('#promise'); imageIn(document.querySelector('.pr-img'));
-if (reduce) gsap.set('.pr-link i', { scaleY: 1 });
-else gsap.fromTo('.pr-link i', { scaleY: 0 }, { scaleY: 1, ease: 'none', scrollTrigger: { trigger: '.pr-link', start: 'top 88%', end: 'bottom 50%', scrub: true } });
+// ── 2 · Promise: one section; image rises in, text staggers
+// Promise enters straight out of the hero's navy, so its reveals start as soon as it touches the viewport
+headingIn('.pr-h', 'top bottom'); revealIn('#promise', 'top bottom'); imageIn(document.querySelector('.pr-img'), 'top bottom');
 
 // ── 3 · From referral to treatment: the connector fills and each step lights up as it is reached
 headingIn('.fl-head h2'); revealIn('#pillars');
